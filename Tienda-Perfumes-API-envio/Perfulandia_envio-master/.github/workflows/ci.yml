@@ -2,9 +2,11 @@ name: Java CI con Maven
 
 on:
   push:
-    branches: [ "develop" ]
+    branches:
+      - develop
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build-and-test:
@@ -23,3 +25,4 @@ jobs:
 
     - name: Compilar y Ejecutar Pruebas
       run: mvn -B clean test
+      working-directory: ./Tienda-Perfumes-API-envio
