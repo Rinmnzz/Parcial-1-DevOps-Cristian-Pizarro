@@ -5,6 +5,10 @@ micro servicio envio
 ## Integrantes
 * **Cristian Pizarro**
 
+## Asignatura
+
+**INGENIERIA DEVOPS_007V_OLS**
+
 ## Herramientas y Tecnologías
 * **Java 17 & Maven**: Motor de desarrollo y gestión de dependencias.
 * **GitHub Actions**: Automatización de integración continua.
