@@ -1,7 +1,7 @@
 # Parcial 2 - DevOps 
-## Microservicio de Envío - Perfulandia
+## Microservicio de Envío
 
-[![Java CI/CD Pipeline con Maven y Docker](https://github.com/Rinmnzz/Parcial-1-DevOps-Cristian-Pizarro/actions/workflows/ci.yml/badge.badge.svg)](https://github.com/Rinmnzz/Parcial-1-DevOps-Cristian-Pizarro/actions)
+
 
 ##  Integrantes
 * **Cristian Pizarro**
@@ -9,18 +9,16 @@
 ##  Asignatura
 * **INGENIERIA DEVOPS_007V_OLS**
 
----
 
 ##  Herramientas y Tecnologías
 * **Java 17 & Maven**: Motor de desarrollo y gestión de dependencias.
 * **Undertow Server**: Servidor web integrado de alto rendimiento elegido para mitigar vulnerabilidades críticas de seguridad.
 * **Snyk CLI**: Herramienta de análisis estático de seguridad (SCA) para auditoría de dependencias.
 * **Docker & Buildx**: Containerización avanzada de la aplicación.
-* **GitHub Container Registry (GHCR)**: Registro privado/público de artefactos para el almacenamiento de imágenes Docker.
 * **GitHub Actions**: Automatización y orquestación del ciclo de vida del software (CI/CD).
 * **Git**: Control de versiones.
 
----
+
 
 ##  Modelo de Ramas (GitFlow)
 Adopté el modelo GitFlow para la gestión de este proyecto por las siguientes razones:
@@ -39,14 +37,13 @@ Adopté el modelo GitFlow para la gestión de este proyecto por las siguientes r
 * `fix:` Para corrección de errores (bugs y parches de seguridad).
 * `ci:` Para cambios en la configuración de GitHub Actions y el pipeline.
 
----
+
 
 ##  Decisiones Arquitectónicas y Seguridad Avanzada
 Durante la fase de análisis estático de dependencias con **Snyk**, se detectaron múltiples vulnerabilidades de severidad Alta y Crítica en el servidor nativo *Tomcat*. 
 
 Como estrategia avanzada de ingeniería DevOps para mitigar riesgos sin detener el ciclo de entrega (debido a la falta de parches oficiales por parte de Tomcat compatibles con Spring Boot 3.5.x), se tomó la decisión arquitectónica de **reemplazar Tomcat por JBoss Undertow** mediante la exclusión de dependencias en el archivo `pom.xml`. Esto eliminó el vector de ataque principal, redujo la superficie de vulnerabilidad y mejoró el rendimiento en el manejo de peticiones concurrentes de la API.
 
----
 
 ##  Pipeline de Integración y Despliegue Continuo (CI/CD)
 El proyecto cuenta con un flujo de trabajo 100% automatizado mediante **GitHub Actions** configurado en el archivo `ci.yml`.
