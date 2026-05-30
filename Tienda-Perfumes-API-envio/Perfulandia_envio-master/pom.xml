@@ -33,6 +33,8 @@
 
     <properties>
         <java.version>17</java.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
+        <tomcat.version>10.1.36</tomcat.version>
     </properties>
 
     <dependencies>
