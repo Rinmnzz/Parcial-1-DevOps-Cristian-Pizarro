@@ -39,8 +39,8 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --severity-threshold=high
-
+          args: --file=Tienda-Perfumes-API-envio/Perfulandia_envio-master/pom.xml --severity-threshold=high
+          
   build-image:
     needs: build-and-test
     runs-on: ubuntu-latest
