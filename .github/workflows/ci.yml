@@ -41,6 +41,7 @@ jobs:
         with:
           args: --file=Tienda-Perfumes-API-envio/Perfulandia_envio-master/pom.xml --severity-threshold=high
           
+          
   build-image:
     needs: build-and-test
     runs-on: ubuntu-latest
