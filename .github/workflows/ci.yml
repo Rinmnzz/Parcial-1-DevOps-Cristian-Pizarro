@@ -1,15 +1,17 @@
-name: Java CI con Maven
+name: Java CI/CD Pipeline con Maven y Docker
 
 on:
   push:
-    branches:
-   
-      - main
+  
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout del código
         uses: actions/checkout@v4
@@ -21,21 +23,57 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Ejecutar Pruebas Unitarias
+      - name: Ejecutar Pruebas Unitarias (Obligatorio)
         run: mvn test 
         working-directory: ./Tienda-Perfumes-API-envio/Perfulandia_envio-master
 
-      - name: Compilar (Saltando Pruebas)
+      - name: Compilar Paquete
         run: mvn -B clean package -DskipTests
         working-directory: ./Tienda-Perfumes-API-envio/Perfulandia_envio-master
 
-      - name: Preparar permisos para Snyk
+      - name: Preparar permisos para Maven Wrapper
         run: chmod +x mvnw
         working-directory: ./Tienda-Perfumes-API-envio/Perfulandia_envio-master
 
+      # ====== NUEVA CONFIGURACIÓN DE SNYK NATIVO ======
+      - name: Instalar Snyk CLI
+        uses: snyk/actions/setup@master
+
       - name: Escaneo de Seguridad (Snyk)
-        uses: snyk/actions/maven@master
+        run: snyk test --file=Tienda-Perfumes-API-envio/Perfulandia_envio-master/pom.xml --severity-threshold=high
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      # ================================================
+
+  build-image:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Login en GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-          args: --file=Tienda-Perfumes-API-envio/Perfulandia_envio-master/pom.xml --severity-threshold=high
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Construir y Subir Imagen Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: ./Tienda-Perfumes-API-envio/Perfulandia_envio-master
+          push: true
+          tags: ghcr.io/${{ github.repository }}/perfulandia-envio:latest
+
+  deploy:
+    needs: build-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simular Despliegue y Trazabilidad (IL 2.4)
+        run: |
+          echo "=========================================="
+          echo "Iniciando despliegue trazable..."
+          echo "Commit ID: ${{ github.sha }}"
+          echo "Autor: ${{ github.actor }}"
+          echo "¡Despliegue simulado exitoso en entorno Cloud!"
+          echo "=========================================="
