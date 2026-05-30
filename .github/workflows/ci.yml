@@ -34,7 +34,7 @@ jobs:
         run: chmod +x mvnw
         working-directory: ./Tienda-Perfumes-API-envio/Perfulandia_envio-master
 
-      # ====== NUEVA CONFIGURACIÓN DE SNYK NATIVO ======
+      # ====== CONFIGURACIÓN DE SNYK NATIVO ======
       - name: Instalar Snyk CLI
         uses: snyk/actions/setup@master
 
@@ -42,7 +42,7 @@ jobs:
         run: snyk test --file=Tienda-Perfumes-API-envio/Perfulandia_envio-master/pom.xml --severity-threshold=critical
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      # ================================================
+      # ==========================================
 
   build-image:
     needs: build-and-test
@@ -56,13 +56,18 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      # ====== SOLUCIÓN: Convertir a minúsculas para Docker ======
+      - name: Convertir nombre del repositorio a minúsculas
+        run: echo "REPO_LC=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
+      # ==========================================================
       
       - name: Construir y Subir Imagen Docker
         uses: docker/build-push-action@v5
         with:
           context: ./Tienda-Perfumes-API-envio/Perfulandia_envio-master
           push: true
-          tags: ghcr.io/${{ github.repository }}/perfulandia-envio:latest
+          tags: ghcr.io/${{ env.REPO_LC }}/perfulandia-envio:latest
 
   deploy:
     needs: build-image
