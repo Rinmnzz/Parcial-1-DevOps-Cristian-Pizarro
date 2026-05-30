@@ -1,12 +1,15 @@
-
-FROM eclipse-temurin:22-jdk-jammy AS build
+# Etapa 1: Construcción (Build)
+FROM eclipse-temurin:17-jdk-jammy AS build
 WORKDIR /app
-COPY . .
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
 RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests
 
-
-FROM eclipse-temurin:22-jre-jammy
+# Etapa 2: Imagen de ejecución
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 COPY --from=build /app/target/perfulandia-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080

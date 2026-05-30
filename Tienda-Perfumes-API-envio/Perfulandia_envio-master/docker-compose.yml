@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  api-envios:
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER:-cristianpizarro}/perfulandia-envio:latest
+    container_name: perfulandia_envio_app
+    restart: always
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
