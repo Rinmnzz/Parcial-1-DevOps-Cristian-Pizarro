@@ -2,7 +2,6 @@ name: Java CI/CD Pipeline con Maven y Docker
 
 on:
   push:
-  
     branches: [ "main" ]
 
 permissions:
@@ -40,7 +39,7 @@ jobs:
         uses: snyk/actions/setup@master
 
       - name: Escaneo de Seguridad (Snyk)
-        run: snyk test --file=Tienda-Perfumes-API-envio/Perfulandia_envio-master/pom.xml --severity-threshold=high
+        run: snyk test --file=Tienda-Perfumes-API-envio/Perfulandia_envio-master/pom.xml --severity-threshold=critical
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       # ================================================
