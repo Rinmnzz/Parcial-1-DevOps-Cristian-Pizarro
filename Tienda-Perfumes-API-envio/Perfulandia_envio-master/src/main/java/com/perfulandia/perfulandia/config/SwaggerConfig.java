@@ -13,7 +13,7 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new io.swagger.v3.oas.models.info.Info()
-                        .title("Perfulandia API")
+                        .title("Perfulandia API 2")
                         .version("1.0.0")
                         .description("API documentation for Perfulandia application"));
     }
